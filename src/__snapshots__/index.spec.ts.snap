@@ -1,0 +1,124 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Trivia 2 rolls of 1 1`] = `
+Array [
+  "Science Question 0",
+  "Sports Question 0",
+]
+`;
+
+exports[`Trivia 5 rolls of 1 1`] = `
+Array [
+  "Science Question 0",
+  "Sports Question 0",
+  "Rock Question 0",
+  "Pop Question 0",
+  "Science Question 1",
+]
+`;
+
+exports[`Trivia Add 3 player 1`] = `Array []`;
+
+exports[`Trivia Answer 6 times correctly 1`] = `
+Array [
+  "Science Question 0",
+  "Sports Question 0",
+  "Rock Question 0",
+  "Pop Question 0",
+  "Science Question 1",
+  "Sports Question 1",
+]
+`;
+
+exports[`Trivia Answer correctly 1`] = `
+Array [
+  "Science Question 0",
+]
+`;
+
+exports[`Trivia Answer wrong and change player 1`] = `
+Array [
+  "Science Question 0",
+  "Science Question 1",
+]
+`;
+
+exports[`Trivia Answer wrongly 1`] = `
+Array [
+  "Science Question 0",
+]
+`;
+
+exports[`Trivia Answer wrongly and then roll even 1`] = `
+Array [
+  "Science Question 0",
+]
+`;
+
+exports[`Trivia Answer wrongly and then roll odd 1`] = `
+Array [
+  "Science Question 0",
+  "Pop Question 0",
+]
+`;
+
+exports[`Trivia Answer wrongly and then roll odd and then answer correctly 1`] = `
+Array [
+  "Science Question 0",
+  "Pop Question 0",
+]
+`;
+
+exports[`Trivia Ask all categories 1`] = `
+Array [
+  "Science Question 0",
+  "Sports Question 0",
+  "Rock Question 0",
+  "Pop Question 0",
+  "Science Question 1",
+  "Sports Question 1",
+  "Rock Question 1",
+  "Pop Question 1",
+  "Science Question 2",
+  "Sports Question 2",
+  "Rock Question 2",
+  "Pop Question 2",
+]
+`;
+
+exports[`Trivia Correct answer, roll and out of bounds 1`] = `
+Array [
+  "Science Question 0",
+  "Pop Question 0",
+  "Rock Question 0",
+]
+`;
+
+exports[`Trivia Correct answer, roll and out of bounds 2`] = `
+Array [
+  "Science Question 0",
+]
+`;
+
+exports[`Trivia Create game 1`] = `Array []`;
+
+exports[`Trivia My global scenario 1`] = `
+Array [
+  "Science Question 0",
+  "Science Question 1",
+  "Science Question 2",
+  "Sports Question 0",
+  "Sports Question 1",
+  "Sports Question 2",
+  "Rock Question 0",
+  "Rock Question 1",
+]
+`;
+
+exports[`Trivia Wrong answer, roll odd and out of bounds 1`] = `
+Array [
+  "Science Question 0",
+  "Pop Question 0",
+  "Rock Question 0",
+]
+`;
