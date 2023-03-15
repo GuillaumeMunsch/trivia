@@ -1,4 +1,6 @@
-type Category = "Pop" | "Science" | "Sports" | "Rock";
+import QuestionsSet from "./QuestionsSet";
+
+export type Category = "Pop" | "Science" | "Sports" | "Rock";
 
 export class Game {
   private players: Array<string> = [];
@@ -8,22 +10,23 @@ export class Game {
   private currentPlayer: number = 0;
   private isGettingOutOfPenaltyBox: boolean = false;
 
-  private popQuestions: Array<string> = [];
-  private scienceQuestions: Array<string> = [];
-  private sportsQuestions: Array<string> = [];
-  private rockQuestions: Array<string> = [];
+  private popQuestions: QuestionsSet;
+  private scienceQuestions: QuestionsSet;
+  private sportsQuestions: QuestionsSet;
+  private rockQuestions: QuestionsSet;
+
+  private questions: { [key in Category]: string[] } = {
+    Pop: [],
+    Rock: [],
+    Science: [],
+    Sports: [],
+  };
 
   constructor() {
-    for (let i = 0; i < 50; i++) {
-      this.popQuestions.push("Pop Question " + i);
-      this.scienceQuestions.push("Science Question " + i);
-      this.sportsQuestions.push("Sports Question " + i);
-      this.rockQuestions.push("Rock Question " + i);
-    }
-    console.log(`Pop questions: ${this.popQuestions.length}`);
-    console.log(`Science questions: ${this.scienceQuestions.length}`);
-    console.log(`Sports questions: ${this.sportsQuestions.length}`);
-    console.log(`Rock questions: ${this.rockQuestions.length}`);
+    this.popQuestions = new QuestionsSet("Pop");
+    this.scienceQuestions = new QuestionsSet("Science");
+    this.sportsQuestions = new QuestionsSet("Sports");
+    this.rockQuestions = new QuestionsSet("Rock");
   }
 
   public add(name: string) {
@@ -78,16 +81,16 @@ export class Game {
     const currentCategory = this.currentCategory();
     switch (currentCategory) {
       case "Pop":
-        console.log(`Asking question: ${this.popQuestions.shift()}`);
+        console.log(`Asking question: ${this.popQuestions.getNextQuestion()}`);
         break;
       case "Science":
-        console.log(`Asking question: ${this.scienceQuestions.shift()}`);
+        console.log(`Asking question: ${this.scienceQuestions.getNextQuestion()}`);
         break;
       case "Sports":
-        console.log(`Asking question: ${this.sportsQuestions.shift()}`);
+        console.log(`Asking question: ${this.sportsQuestions.getNextQuestion()}`);
         break;
       case "Rock":
-        console.log(`Asking question: ${this.rockQuestions.shift()}`);
+        console.log(`Asking question: ${this.rockQuestions.getNextQuestion()}`);
         break;
     }
   }
