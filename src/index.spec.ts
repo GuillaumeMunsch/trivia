@@ -102,6 +102,58 @@ describe("Trivia", () => {
     });
   });
 
+  it("Wrong answer of last player and reset current player to first in list", async () => {
+    runGoldenMaster(async () => {
+      // GIVEN
+      const game = new Game();
+
+      // WHEN
+      game.add("Mathieu");
+      game.add("Guillaume");
+      game.wrongAnswer();
+    });
+  });
+
+  it("Correctly answered by in penality player and getting out of it", async () => {
+    runGoldenMaster(async () => {
+      // GIVEN
+      const game = new Game();
+
+      // WHEN
+      game.add("Mathieu");
+      game.wrongAnswer();
+      game.roll(1);
+      game.wasCorrectlyAnswered();
+    });
+  });
+
+  it("Correctly answered by in penality player and getting out of it but not last player", async () => {
+    runGoldenMaster(async () => {
+      // GIVEN
+      const game = new Game();
+
+      // WHEN
+      game.add("Mathieu");
+      game.add("Guillaume");
+      game.wrongAnswer();
+      game.roll(1);
+      game.wasCorrectlyAnswered();
+    });
+  });
+
+  it("Correctly answered by in penality player and NOT getting out of it", async () => {
+    runGoldenMaster(async () => {
+      // GIVEN
+      const game = new Game();
+
+      // WHEN
+      game.add("Mathieu");
+      game.wrongAnswer();
+      game.roll(2);
+      game.wasCorrectlyAnswered();
+    });
+  });
+
   it("Correct answer, roll and out of bounds", async () => {
     runGoldenMaster(async () => {
       // GIVEN
@@ -225,13 +277,13 @@ describe("Trivia", () => {
       game.roll(1);
       game.wasCorrectlyAnswered();
       game.roll(1);
-      game.wasCorrectlyAnswered();
+      game.wrongAnswer();
+      game.roll(1);
+      game.wrongAnswer();
       game.roll(1);
       game.wasCorrectlyAnswered();
       game.roll(1);
-      game.wasCorrectlyAnswered();
-      game.roll(1);
-      game.wasCorrectlyAnswered();
+      game.wrongAnswer();
       game.roll(1);
       game.wasCorrectlyAnswered();
       game.roll(1);
