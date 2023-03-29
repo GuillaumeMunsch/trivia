@@ -1,4 +1,5 @@
 import AllQuestionsSet from "./AllQuestionsSet/AllQuestionsSet";
+import Board from "./Board/Board";
 
 export type Category = "Pop" | "Science" | "Sports" | "Rock";
 
@@ -38,11 +39,10 @@ export class Game {
         this.isGettingOutOfPenaltyBox = true;
         if (this.isGettingOutOfPenaltyBox === true) console.log(`He might get out of penality box`);
 
-        this.places[this.currentPlayer] = this.places[this.currentPlayer] + roll;
-
-        if (this.places[this.currentPlayer] > 11) {
-          this.places[this.currentPlayer] = this.places[this.currentPlayer] - 12;
-        }
+        this.places[this.currentPlayer] = Board.move({
+          from: this.places[this.currentPlayer],
+          value: roll,
+        });
         console.log(`He moves to place ${this.places[this.currentPlayer]}`);
 
         this.askQuestion();
@@ -53,10 +53,10 @@ export class Game {
     } else {
       console.log(`While not being in penalityBox`);
 
-      this.places[this.currentPlayer] = this.places[this.currentPlayer] + roll;
-      if (this.places[this.currentPlayer] > 11) {
-        this.places[this.currentPlayer] = this.places[this.currentPlayer] - 12;
-      }
+      this.places[this.currentPlayer] = Board.move({
+        from: this.places[this.currentPlayer],
+        value: roll,
+      });
       console.log(`He moves to place ${this.places[this.currentPlayer]}`);
 
       this.askQuestion();
