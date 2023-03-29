@@ -1,4 +1,4 @@
-import { Category } from ".";
+import { Category } from "..";
 
 class QuestionsSet {
   private questions: string[] = [];

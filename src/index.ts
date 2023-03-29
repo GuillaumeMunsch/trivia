@@ -1,4 +1,4 @@
-import QuestionsSet from "./QuestionsSet";
+import AllQuestionsSet from "./AllQuestionsSet/AllQuestionsSet";
 
 export type Category = "Pop" | "Science" | "Sports" | "Rock";
 
@@ -9,24 +9,10 @@ export class Game {
   private inPenaltyBox: Array<boolean> = [];
   private currentPlayer: number = 0;
   private isGettingOutOfPenaltyBox: boolean = false;
-
-  private popQuestions: QuestionsSet;
-  private scienceQuestions: QuestionsSet;
-  private sportsQuestions: QuestionsSet;
-  private rockQuestions: QuestionsSet;
-
-  private questions: { [key in Category]: string[] } = {
-    Pop: [],
-    Rock: [],
-    Science: [],
-    Sports: [],
-  };
+  private questionsSet: AllQuestionsSet;
 
   constructor() {
-    this.popQuestions = new QuestionsSet("Pop");
-    this.scienceQuestions = new QuestionsSet("Science");
-    this.sportsQuestions = new QuestionsSet("Sports");
-    this.rockQuestions = new QuestionsSet("Rock");
+    this.questionsSet = new AllQuestionsSet();
   }
 
   public add(name: string) {
@@ -79,20 +65,7 @@ export class Game {
 
   private askQuestion(): void {
     const currentCategory = this.currentCategory();
-    switch (currentCategory) {
-      case "Pop":
-        console.log(`Asking question: ${this.popQuestions.getNextQuestion()}`);
-        break;
-      case "Science":
-        console.log(`Asking question: ${this.scienceQuestions.getNextQuestion()}`);
-        break;
-      case "Sports":
-        console.log(`Asking question: ${this.sportsQuestions.getNextQuestion()}`);
-        break;
-      case "Rock":
-        console.log(`Asking question: ${this.rockQuestions.getNextQuestion()}`);
-        break;
-    }
+    console.log(`Asking question: ${this.questionsSet.getNextQuestion(currentCategory)}`);
   }
 
   private currentCategory(): Category {
