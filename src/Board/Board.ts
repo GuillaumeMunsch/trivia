@@ -3,8 +3,8 @@ type MoveParams = {
   value: number;
 };
 
-const Board = {
-  move: ({ from, value }: MoveParams) => (from + value) % 12,
+class Board {
+  static move = ({ from, value }: MoveParams) => (from + value) % 12;
 };
 
 export default Board;
