@@ -4,7 +4,7 @@ import Player from "./Player";
 describe("Player", () => {
   it("Should create a player", () => {
     // GIVEN
-    const player = new Player();
+    const player = new Player("Mathieu");
 
     // WHEN
     const playerCoins = player.earnCoin();
@@ -15,7 +15,7 @@ describe("Player", () => {
 
   it("Should move a player after a roll of 1", () => {
     // GIVEN
-    const player = new Player();
+    const player = new Player("Mathieu");
     const rollValue = 1;
 
     // WHEN
@@ -27,7 +27,7 @@ describe("Player", () => {
 
   it("Should put a player in penality box when answered", () => {
     // GIVEN
-    const player = new Player();
+    const player = new Player("Mathieu");
 
     // WHEN
     player.providesWrongAnswer();
@@ -38,7 +38,7 @@ describe("Player", () => {
 
   it("Should allow player to get out of penality box if he answers correctly", () => {
     // GIVEN
-    const player = new Player();
+    const player = new Player("Mathieu");
     const rollValue = 3;
 
     // WHEN
@@ -50,7 +50,7 @@ describe("Player", () => {
 
   it("Should not allow player to get out of penality box if he answers correctly", () => {
     // GIVEN
-    const player = new Player();
+    const player = new Player("Mathieu");
     const rollValue = 2;
 
     // WHEN
@@ -62,7 +62,7 @@ describe("Player", () => {
 
   it("Should player in penality box roll odd and provides correct answer", () => {
     // GIVEN
-    const player = new Player();
+    const player = new Player("Mathieu");
 
     // WHEN
     player.providesWrongAnswer();
@@ -75,7 +75,7 @@ describe("Player", () => {
 
   it("Should assert that a player won", () => {
     // GIVEN
-    const player = new Player();
+    const player = new Player("Mathieu");
 
     // WHEN
     player.providesCorrectAnswer();
@@ -88,4 +88,13 @@ describe("Player", () => {
     // THEN
     expect(player.didWinTheGame()).toEqual(true);
   });
+
+  it("Should assert that a player won", () => {
+    // GIVEN
+    const player = new Player("Mathieu");
+
+    // THEN
+    expect(player.deprecatedGetName()).toEqual("Mathieu");
+  });
+  
 });

@@ -1,14 +1,12 @@
 import AllQuestionsSet from "./AllQuestionsSet/AllQuestionsSet";
 import Board from "./Board/Board";
+import Player from "./Player/Player";
 
 export type Category = "Pop" | "Science" | "Sports" | "Rock";
 
 export class Game {
-  private players: Array<string> = [];
-  private places: Array<number> = [];
-  private purses: Array<number> = [];
-  private inPenaltyBox: Array<boolean> = [];
-  private currentPlayer: number = 0;
+  private players: Array<Player> = [];
+  private currentPlayerIndex: number = 0;
   private isGettingOutOfPenaltyBox: boolean = false;
   private questionsSet: AllQuestionsSet;
 
@@ -17,12 +15,8 @@ export class Game {
   }
 
   public add(name: string) {
-    this.players.push(name);
-    console.log(`Adding player ${name} to the game`);
+    this.players.push(new Player(name));
     const numberOfPlayers = this.howManyPlayers();
-    this.places[numberOfPlayers - 1] = 0;
-    this.purses[numberOfPlayers - 1] = 0;
-    this.inPenaltyBox[numberOfPlayers - 1] = false;
   }
 
   private howManyPlayers(): number {
@@ -31,8 +25,9 @@ export class Game {
   }
 
   public roll(roll: number) {
-    console.log(`Player ${this.players[this.currentPlayer]} rolled ${roll}`);
-    if (this.inPenaltyBox[this.currentPlayer]) {
+    console.log(`Player ${this.players[this.currentPlayerIndex].deprecatedGetName()} rolled ${roll}`);
+
+    if (this.players[this.currentPlayerIndex].deprecatedGetIsInPenalityBox()) {
       console.log(`While in penalityBox`);
 
       if (roll % 2 != 0) {
@@ -40,11 +35,7 @@ export class Game {
         this.isGettingOutOfPenaltyBox = true;
         if (this.isGettingOutOfPenaltyBox === true) console.log(`He might get out of penality box`);
 
-        this.places[this.currentPlayer] = Board.move({
-          from: this.places[this.currentPlayer],
-          value: roll,
-        });
-        console.log(`He moves to place ${this.places[this.currentPlayer]}`);
+        this.players[this.currentPlayerIndex].roll(roll);
 
         this.askQuestion();
       } else {
@@ -53,12 +44,7 @@ export class Game {
       }
     } else {
       console.log(`While not being in penalityBox`);
-
-      this.places[this.currentPlayer] = Board.move({
-        from: this.places[this.currentPlayer],
-        value: roll,
-      });
-      console.log(`He moves to place ${this.places[this.currentPlayer]}`);
+      this.players[this.currentPlayerIndex].roll(roll);
 
       this.askQuestion();
     }
@@ -71,74 +57,59 @@ export class Game {
 
   private currentCategory(): Category {
     const categories: Category[] = ["Pop", "Science", "Sports", "Rock"];
-    const currentCategory = categories[this.places[this.currentPlayer] % 4];
+    const currentCategory = categories[this.players[this.currentPlayerIndex].deprecatedGetPlace() % 4];
     return currentCategory;
   }
 
-  private didPlayerWin(): boolean {
-    console.log(
-      `Player ${this.players[this.currentPlayer]} did${this.purses[this.currentPlayer] == 6 ? "" : " not"} win`
-    );
-
-    return this.purses[this.currentPlayer] == 6;
-  }
-
   public wrongAnswer(): boolean {
-    console.log(`Player ${this.players[this.currentPlayer]} answered wrongly`);
+    this.players[this.currentPlayerIndex].providesWrongAnswer();
 
-    this.inPenaltyBox[this.currentPlayer] = true;
-    if (this.inPenaltyBox[this.currentPlayer] === true) console.log(`He is put in penality box`);
+    this.currentPlayerIndex += 1;
 
-    this.currentPlayer += 1;
-
-    if (this.currentPlayer == this.players.length) this.currentPlayer = 0;
-    console.log(`The current player is now ${this.players[this.currentPlayer]}`);
+    if (this.currentPlayerIndex == this.players.length) this.currentPlayerIndex = 0;
+    console.log(`The current player is now ${this.players[this.currentPlayerIndex].deprecatedGetName()}`);
 
     return false;
   }
 
   public wasCorrectlyAnswered(): boolean {
-    console.log(`Player ${this.players[this.currentPlayer]} answered correctly`);
+    console.log(`Player ${this.players[this.currentPlayerIndex].deprecatedGetName()} answered correctly`);
 
-    if (this.inPenaltyBox[this.currentPlayer]) {
+    if (this.players[this.currentPlayerIndex].deprecatedGetIsInPenalityBox()) {
       console.log(`He currently is in penality box`);
-      if (this.isGettingOutOfPenaltyBox) {
-        this.inPenaltyBox[this.currentPlayer] = false;
+      if (this.players[this.currentPlayerIndex].deprecatedGetIsGettingOutOfPenalityBox()) {
         console.log(`And he's getting out of it`);
-        this.purses[this.currentPlayer] += 1;
+        this.players[this.currentPlayerIndex].providesCorrectAnswer();
+        console.log(`He's got ${this.players[this.currentPlayerIndex].deprecatedGetScore()} points now`);
 
-        console.log(`He's got ${this.purses[this.currentPlayer]} points now`);
-
-        var winner = this.didPlayerWin();
+        var winner = this.players[this.currentPlayerIndex].didWinTheGame();
         console.log(`He ${winner ? "is" : "isn't"} the winner`);
+        this.currentPlayerIndex += 1;
 
-        this.currentPlayer += 1;
+        if (this.currentPlayerIndex == this.players.length) this.currentPlayerIndex = 0;
 
-        if (this.currentPlayer == this.players.length) this.currentPlayer = 0;
-
-        console.log(`The next player is player ${this.players[this.currentPlayer]}`);
+        console.log(`The next player is player ${this.players[this.currentPlayerIndex].deprecatedGetName()}`);
 
         return winner;
       } else {
         console.log(`And he's NOT getting out of it`);
 
-        this.currentPlayer += 1;
-        if (this.currentPlayer == this.players.length) this.currentPlayer = 0;
-        console.log(`The next player is player ${this.players[this.currentPlayer]}`);
+        this.currentPlayerIndex += 1;
+        if (this.currentPlayerIndex == this.players.length) this.currentPlayerIndex = 0;
+        console.log(`The next player is player ${this.players[this.currentPlayerIndex].deprecatedGetName()}`);
 
         return false;
       }
     } else {
-      this.purses[this.currentPlayer] += 1;
-      console.log(`He's got ${this.purses[this.currentPlayer]} points now`);
+      this.players[this.currentPlayerIndex].providesCorrectAnswer();
+      console.log(`He's got ${this.players[this.currentPlayerIndex].deprecatedGetScore()} points now`);
 
-      var winner = this.didPlayerWin();
+      var winner = this.players[this.currentPlayerIndex].didWinTheGame();
       console.log(`He ${winner ? "is" : "isn't"} the winner`);
+      this.currentPlayerIndex += 1;
+      if (this.currentPlayerIndex == this.players.length) this.currentPlayerIndex = 0;
 
-      this.currentPlayer += 1;
-      if (this.currentPlayer == this.players.length) this.currentPlayer = 0;
-
-      console.log(`The next player is player ${this.players[this.currentPlayer]}`);
+      console.log(`The next player is player ${this.players[this.currentPlayerIndex].deprecatedGetName()}`);
       return winner;
     }
   }
