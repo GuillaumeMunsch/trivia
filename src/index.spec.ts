@@ -246,6 +246,22 @@ describe("Trivia", () => {
     });
   });
 
+    it("Answer wrongly and then roll even and then answer correctly", async () => {
+      runGoldenMaster(async () => {
+        // GIVEN
+        const game = new Game();
+        game.add("Mathieu");
+        game.roll(1);
+        game.wrongAnswer();
+        game.roll(2);
+
+        // WHEN
+        game.wasCorrectlyAnswered();
+
+        // THEN
+      });
+    });
+
   it("Answer 6 times correctly", async () => {
     runGoldenMaster(async () => {
       // GIVEN

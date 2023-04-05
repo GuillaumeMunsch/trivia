@@ -207,6 +207,30 @@ Array [
 ]
 `;
 
+exports[`Trivia Answer wrongly and then roll even and then answer correctly 1`] = `
+Array [
+  "Pop questions: 50",
+  "Science questions: 50",
+  "Sports questions: 50",
+  "Rock questions: 50",
+  "Number of players: 1",
+  "Player 0 rolled 1",
+  "While not being in penalityBox",
+  "He moves to place 1",
+  "Asking question: Science Question 0",
+  "Player 0 answered wrongly",
+  "He is put in penality box",
+  "The current player is now 0",
+  "Player 0 rolled 2",
+  "While in penalityBox",
+  "He won't get out of penality box",
+  "Player 0 answered correctly",
+  "He currently is in penality box",
+  "And he's NOT getting out of it",
+  "The next player is player 0",
+]
+`;
+
 exports[`Trivia Answer wrongly and then roll odd 1`] = `
 Array [
   "Pop questions: 50",
