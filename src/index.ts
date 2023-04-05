@@ -18,6 +18,7 @@ export class Game {
 
   public add(name: string) {
     this.players.push(name);
+    console.log(`Adding player ${name} to the game`);
     const numberOfPlayers = this.howManyPlayers();
     this.places[numberOfPlayers - 1] = 0;
     this.purses[numberOfPlayers - 1] = 0;
@@ -30,7 +31,7 @@ export class Game {
   }
 
   public roll(roll: number) {
-    console.log(`Player ${this.currentPlayer} rolled ${roll}`);
+    console.log(`Player ${this.players[this.currentPlayer]} rolled ${roll}`);
     if (this.inPenaltyBox[this.currentPlayer]) {
       console.log(`While in penalityBox`);
 
@@ -75,13 +76,15 @@ export class Game {
   }
 
   private didPlayerWin(): boolean {
-    console.log(`Player ${this.currentPlayer} did${this.purses[this.currentPlayer] == 6 ? "" : " not"} win`);
+    console.log(
+      `Player ${this.players[this.currentPlayer]} did${this.purses[this.currentPlayer] == 6 ? "" : " not"} win`
+    );
 
     return this.purses[this.currentPlayer] == 6;
   }
 
   public wrongAnswer(): boolean {
-    console.log(`Player ${this.currentPlayer} answered wrongly`);
+    console.log(`Player ${this.players[this.currentPlayer]} answered wrongly`);
 
     this.inPenaltyBox[this.currentPlayer] = true;
     if (this.inPenaltyBox[this.currentPlayer] === true) console.log(`He is put in penality box`);
@@ -89,13 +92,13 @@ export class Game {
     this.currentPlayer += 1;
 
     if (this.currentPlayer == this.players.length) this.currentPlayer = 0;
-    console.log(`The current player is now ${this.currentPlayer}`);
+    console.log(`The current player is now ${this.players[this.currentPlayer]}`);
 
     return false;
   }
 
   public wasCorrectlyAnswered(): boolean {
-    console.log(`Player ${this.currentPlayer} answered correctly`);
+    console.log(`Player ${this.players[this.currentPlayer]} answered correctly`);
 
     if (this.inPenaltyBox[this.currentPlayer]) {
       console.log(`He currently is in penality box`);
@@ -113,7 +116,7 @@ export class Game {
 
         if (this.currentPlayer == this.players.length) this.currentPlayer = 0;
 
-        console.log(`The next player is player ${this.currentPlayer}`);
+        console.log(`The next player is player ${this.players[this.currentPlayer]}`);
 
         return winner;
       } else {
@@ -121,7 +124,7 @@ export class Game {
 
         this.currentPlayer += 1;
         if (this.currentPlayer == this.players.length) this.currentPlayer = 0;
-        console.log(`The next player is player ${this.currentPlayer}`);
+        console.log(`The next player is player ${this.players[this.currentPlayer]}`);
 
         return false;
       }
@@ -135,7 +138,7 @@ export class Game {
       this.currentPlayer += 1;
       if (this.currentPlayer == this.players.length) this.currentPlayer = 0;
 
-      console.log(`The next player is player ${this.currentPlayer}`);
+      console.log(`The next player is player ${this.players[this.currentPlayer]}`);
       return winner;
     }
   }
