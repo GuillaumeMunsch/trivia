@@ -1,3 +1,5 @@
+import { Category } from "..";
+import AllQuestionsSet from "../AllQuestionsSet/AllQuestionsSet";
 import Board from "../Board/Board";
 
 class Player {
@@ -18,11 +20,50 @@ class Player {
 
   earnCoin = () => ++this.purse;
 
-  roll = (rollValue: number) => {
+  private askQuestion(questionsSet: AllQuestionsSet): void {
+    const currentCategory = this.currentCategory();
+    console.log(`Asking question: ${questionsSet.getNextQuestion(currentCategory)}`);
+  }
+
+  private currentCategory(): Category {
+    const categories: Category[] = ["Pop", "Science", "Sports", "Rock"];
+    const currentCategory = categories[this.place % 4];
+    return currentCategory;
+  }
+
+  private move = (rollValue: number) => {
     this.place = Board.move({ from: this.place, value: rollValue });
     console.log(`He moves to place ${this.place}`);
 
     this.isGettingOutOfPenalityBox = rollValue % 2 != 0;
+
+    return this.place;
+  };
+
+  roll = ({ questionsSet, rollValue }: { rollValue: number; questionsSet: AllQuestionsSet }) => {
+    console.log(`Player ${this.name} rolled ${rollValue}`);
+
+    if (this.isInPenalityBox) {
+      console.log(`While in penalityBox`);
+
+      if (rollValue % 2 != 0) {
+        console.log(`He rolled an odd number`);
+        this.isGettingOutOfPenalityBox = true;
+        if (this.isGettingOutOfPenalityBox === true) console.log(`He might get out of penality box`);
+
+        this.move(rollValue);
+
+        this.askQuestion(questionsSet);
+      } else {
+        console.log(`He won't get out of penality box`);
+        this.isGettingOutOfPenalityBox = false;
+      }
+    } else {
+      console.log(`While not being in penalityBox`);
+      this.move(rollValue);
+
+      this.askQuestion(questionsSet);
+    }
     return this.place;
   };
 

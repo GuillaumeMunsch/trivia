@@ -1,3 +1,4 @@
+import AllQuestionsSet from "../AllQuestionsSet/AllQuestionsSet";
 import Board from "../Board/Board";
 import Player from "./Player";
 
@@ -19,7 +20,7 @@ describe("Player", () => {
     const rollValue = 1;
 
     // WHEN
-    const playerPlace = player.roll(rollValue);
+    const playerPlace = player.roll({ rollValue: rollValue, questionsSet: new AllQuestionsSet() });
 
     // THEN
     expect(playerPlace).toEqual(1);
@@ -42,7 +43,7 @@ describe("Player", () => {
     const rollValue = 3;
 
     // WHEN
-    player.roll(rollValue);
+    player.roll({ rollValue: rollValue, questionsSet: new AllQuestionsSet() });
 
     // THEN
     player.expectToBeAllowedOfOrPenalityBox(expect)(true);
@@ -54,7 +55,7 @@ describe("Player", () => {
     const rollValue = 2;
 
     // WHEN
-    player.roll(rollValue);
+    player.roll({ rollValue: rollValue, questionsSet: new AllQuestionsSet() });
 
     // THEN
     player.expectToBeAllowedOfOrPenalityBox(expect)(false);
@@ -66,7 +67,7 @@ describe("Player", () => {
 
     // WHEN
     player.providesWrongAnswer();
-    player.roll(3);
+    player.roll({ rollValue: 3, questionsSet: new AllQuestionsSet() });
     player.providesCorrectAnswer();
 
     // THEN
@@ -96,5 +97,4 @@ describe("Player", () => {
     // THEN
     expect(player.deprecatedGetName()).toEqual("Mathieu");
   });
-  
 });

@@ -25,40 +25,7 @@ export class Game {
   }
 
   public roll(roll: number) {
-    console.log(`Player ${this.players[this.currentPlayerIndex].deprecatedGetName()} rolled ${roll}`);
-
-    if (this.players[this.currentPlayerIndex].deprecatedGetIsInPenalityBox()) {
-      console.log(`While in penalityBox`);
-
-      if (roll % 2 != 0) {
-        console.log(`He rolled an odd number`);
-        this.isGettingOutOfPenaltyBox = true;
-        if (this.isGettingOutOfPenaltyBox === true) console.log(`He might get out of penality box`);
-
-        this.players[this.currentPlayerIndex].roll(roll);
-
-        this.askQuestion();
-      } else {
-        console.log(`He won't get out of penality box`);
-        this.isGettingOutOfPenaltyBox = false;
-      }
-    } else {
-      console.log(`While not being in penalityBox`);
-      this.players[this.currentPlayerIndex].roll(roll);
-
-      this.askQuestion();
-    }
-  }
-
-  private askQuestion(): void {
-    const currentCategory = this.currentCategory();
-    console.log(`Asking question: ${this.questionsSet.getNextQuestion(currentCategory)}`);
-  }
-
-  private currentCategory(): Category {
-    const categories: Category[] = ["Pop", "Science", "Sports", "Rock"];
-    const currentCategory = categories[this.players[this.currentPlayerIndex].deprecatedGetPlace() % 4];
-    return currentCategory;
+    this.players[this.currentPlayerIndex].roll({ rollValue: roll, questionsSet: this.questionsSet });
   }
 
   public wrongAnswer(): boolean {
