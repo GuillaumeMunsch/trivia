@@ -1,6 +1,4 @@
-import { Category } from "..";
 import Player from "../Player/Player";
-import QuestionsSet from "../QuestionsSet/QuestionsSet";
 
 class AllPlayersSet {
   private playersSet: Player[] = [];
@@ -8,7 +6,10 @@ class AllPlayersSet {
 
   getCurrentPlayer = () => this.playersSet[this.currentPlayerIndex];
 
-  addPlayer = (player: Player) => (this.playersSet = [...this.playersSet, player]);
+  addPlayer = (player: Player) => {
+    this.playersSet = [...this.playersSet, player];
+    console.log(`Number of players: ${this.playersSet.length}`);
+  };
 
   switchPlayer = () => {
     this.currentPlayerIndex = (this.currentPlayerIndex + 1) % this.playersSet.length;
