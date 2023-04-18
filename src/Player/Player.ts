@@ -8,9 +8,7 @@ class Player {
   private isInPenalityBox = false;
   private isGettingOutOfPenalityBox;
 
-  constructor(private name: string) {
-    console.log(`Adding player ${name} to the game`);
-  }
+  constructor(private name: string) {}
 
   deprecatedGetIsInPenalityBox = () => this.isInPenalityBox;
   deprecatedGetIsGettingOutOfPenalityBox = () => this.isGettingOutOfPenalityBox;
@@ -22,7 +20,6 @@ class Player {
 
   private askQuestion(questionsSet: AllQuestionsSet): void {
     const currentCategory = this.currentCategory();
-    console.log(`Asking question: ${questionsSet.getNextQuestion(currentCategory)}`);
   }
 
   private currentCategory(): Category {
@@ -33,7 +30,6 @@ class Player {
 
   private move = (rollValue: number) => {
     this.place = Board.move({ from: this.place, value: rollValue });
-    console.log(`He moves to place ${this.place}`);
 
     this.isGettingOutOfPenalityBox = rollValue % 2 != 0;
 
@@ -41,25 +37,17 @@ class Player {
   };
 
   roll = ({ questionsSet, rollValue }: { rollValue: number; questionsSet: AllQuestionsSet }) => {
-    console.log(`Player ${this.name} rolled ${rollValue}`);
-
     if (this.isInPenalityBox) {
-      console.log(`While in penalityBox`);
-
       if (rollValue % 2 != 0) {
-        console.log(`He rolled an odd number`);
         this.isGettingOutOfPenalityBox = true;
-        if (this.isGettingOutOfPenalityBox === true) console.log(`He might get out of penality box`);
 
         this.move(rollValue);
 
         this.askQuestion(questionsSet);
       } else {
-        console.log(`He won't get out of penality box`);
         this.isGettingOutOfPenalityBox = false;
       }
     } else {
-      console.log(`While not being in penalityBox`);
       this.move(rollValue);
 
       this.askQuestion(questionsSet);
@@ -69,16 +57,12 @@ class Player {
 
   didWinTheGame = () => {
     const didPlayerWin = this.purse === 6;
-    console.log(`Player ${this.name} did${didPlayerWin ? "" : " not"} win`);
 
     return didPlayerWin;
   };
 
   providesWrongAnswer = () => {
-    console.log(`Player ${this.name} answered wrongly`);
-
     this.isInPenalityBox = true;
-    console.log(`He is put in penality box`);
   };
 
   providesCorrectAnswer = () => {

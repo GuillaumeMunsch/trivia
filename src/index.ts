@@ -21,46 +21,32 @@ export class Game {
 
     this.allPlayersSet.switchPlayer();
 
-    console.log(`The current player is now ${this.allPlayersSet.getCurrentPlayer().deprecatedGetName()}`);
-
     return false;
   }
 
+  private verifyScoreAndIfWon = () => {
+    this.allPlayersSet.getCurrentPlayer().providesCorrectAnswer();
+
+    var winner = this.allPlayersSet.getCurrentPlayer().didWinTheGame();
+    return winner;
+  };
+
   public wasCorrectlyAnswered(): boolean {
-    console.log(`Player ${this.allPlayersSet.getCurrentPlayer().deprecatedGetName()} answered correctly`);
-
-    if (this.allPlayersSet.getCurrentPlayer().deprecatedGetIsInPenalityBox()) {
-      console.log(`He currently is in penality box`);
-      if (this.allPlayersSet.getCurrentPlayer().deprecatedGetIsGettingOutOfPenalityBox()) {
-        console.log(`And he's getting out of it`);
-        this.allPlayersSet.getCurrentPlayer().providesCorrectAnswer();
-        console.log(`He's got ${this.allPlayersSet.getCurrentPlayer().deprecatedGetScore()} points now`);
-
-        var winner = this.allPlayersSet.getCurrentPlayer().didWinTheGame();
-        console.log(`He ${winner ? "is" : "isn't"} the winner`);
-        this.allPlayersSet.switchPlayer();
-
-        console.log(`The next player is player ${this.allPlayersSet.getCurrentPlayer().deprecatedGetName()}`);
-
-        return winner;
-      } else {
-        console.log(`And he's NOT getting out of it`);
-
-        this.allPlayersSet.switchPlayer();
-        console.log(`The next player is player ${this.allPlayersSet.getCurrentPlayer().deprecatedGetName()}`);
-
-        return false;
-      }
-    } else {
-      this.allPlayersSet.getCurrentPlayer().providesCorrectAnswer();
-      console.log(`He's got ${this.allPlayersSet.getCurrentPlayer().deprecatedGetScore()} points now`);
-
-      var winner = this.allPlayersSet.getCurrentPlayer().didWinTheGame();
-      console.log(`He ${winner ? "is" : "isn't"} the winner`);
+    if (!this.allPlayersSet.getCurrentPlayer().deprecatedGetIsInPenalityBox()) {
+      const winner = this.verifyScoreAndIfWon();
       this.allPlayersSet.switchPlayer();
 
-      console.log(`The next player is player ${this.allPlayersSet.getCurrentPlayer().deprecatedGetName()}`);
       return winner;
     }
+
+    if (this.allPlayersSet.getCurrentPlayer().deprecatedGetIsGettingOutOfPenalityBox()) {
+      const winner = this.verifyScoreAndIfWon();
+      this.allPlayersSet.switchPlayer();
+      return winner;
+    }
+
+    this.allPlayersSet.switchPlayer();
+
+    return false;
   }
 }

@@ -8,7 +8,6 @@ class AllPlayersSet {
 
   addPlayer = (player: Player) => {
     this.playersSet = [...this.playersSet, player];
-    console.log(`Number of players: ${this.playersSet.length}`);
   };
 
   switchPlayer = () => {

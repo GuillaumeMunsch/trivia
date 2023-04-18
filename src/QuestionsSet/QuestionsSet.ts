@@ -5,7 +5,6 @@ class QuestionsSet {
 
   constructor(category: Category, numberOfQuestion = 50) {
     this.questions = [...new Array(numberOfQuestion)].map((_, index) => `${category} Question ${index}`);
-    console.log(`${category} questions: ${numberOfQuestion}`);
   }
 
   getNextQuestion = () => {
